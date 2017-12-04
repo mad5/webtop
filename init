@@ -1,0 +1,20 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+
+nohup php -S 127.0.0.1:8765 -t pserver/ &
+
+nohup chromium-browser \
+	--disable-translate \
+	--disable-autofill-keyboard-accessory-view \
+	--disable-default-apps \
+	--no-first-run \
+	--ignore-certificate-errors \
+	--disable-extensions \
+	--disable-infobars \
+	--noerrdialogs \
+	--user-data-dir=.browserdata \
+	--disable-notifications \
+	--disable-prompt-on-repost \
+	--disable-popup-blocking \
+	--app=http://localhost:8765/pdesktop.php 2>/dev/null
+	
