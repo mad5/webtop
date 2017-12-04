@@ -60,7 +60,7 @@ var apps = <?= json_encode($config); ?>;
 
 $(function() {
 	setTimeout(function() {
-	return;
+		//return;
 		$.ajax({
 			"url": "setback.php?dat=<?= time();?>",
 			"dataType": "html"
