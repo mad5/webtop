@@ -1,7 +1,15 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+if hash wmctrl 2>/dev/null; then
+	echo ""
+else
+	echo "wmctrl not found. Please install: sudo apt-get install wmctrl";
+	exit 0
+fi
+
 nohup php -S 127.0.0.1:8765 -t pserver/ &
+export APP_PID=$!
 
 nohup chromium-browser \
 	--disable-translate \
@@ -18,3 +26,4 @@ nohup chromium-browser \
 	--disable-popup-blocking \
 	--app=http://localhost:8765/pdesktop.php 2>/dev/null
 	
+kill $APP_PID

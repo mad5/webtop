@@ -1,8 +1,8 @@
 <?php
 
-
-exec("nohup ".$_REQUEST["app"]." >/dev/null");	
+$E = "nohup ".$_REQUEST["command"]." >/dev/null";
+exec($E);	
 	
 
-echo "ok";
+echo "ok: ".$E;
 ?>

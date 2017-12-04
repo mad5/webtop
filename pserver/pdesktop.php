@@ -4,6 +4,9 @@
 <script src='jquery-1.12.4.min.js'></script>
 
 <style>
+* {
+	font-family: verdana,sans-serif;
+}
 body {
     background: url(bg.jpg);
     background-repeat: no-repeat;
@@ -17,6 +20,7 @@ body {
 	cursor: pointer;
 	float:left;
 	margin: 0px 5px 5px 0;
+	text-align: center;
 }
 </style>
 
@@ -24,12 +28,39 @@ body {
 <body>
 <div id="clock" style="float:right;color: white;font-size: 3em;"></div>
 
+<div>
+	<form method="post" onsubmit="openApp($('#command').val());return false;">
+		<input type="text" id="command" value="" placeholder="command" style="width:250px;"> <input type="submit" value="exec">
+	</form>
+</div>
+
+<?php
+$config = array();
+if(file_exists(__DIR__.'/../config.json')) {
+	$config = json_decode(file_get_contents(__DIR__.'/../config.json'), true);
+}
+foreach($config as $nr => $line) { ?>
+	<div style='' onclick="openApp(apps[<?= $nr;?>].command);" class="app">
+		<?php if($line["icon"]!="") { ?>
+			<img src='<?= $line["icon"];?>'><br>
+		<?php } ?>
+		<?= $line["title"];?>
+	</div>
+<?php } 
+?>
+
+<!--
 <div style='' onclick="openApp('lxterminal');" class="app">Terminal</div>
 <div style='' onclick="openApp('~/bin/jango');" class="app">Radio</div>
+-->
 
 <script>
+
+var apps = <?= json_encode($config); ?>;
+
 $(function() {
 	setTimeout(function() {
+	return;
 		$.ajax({
 			"url": "setback.php?dat=<?= time();?>",
 			"dataType": "html"
@@ -51,7 +82,7 @@ function openApp(app) {
 		$.ajax({
 			"url": "openapp.php?dat="+(new Date()).getTime(),
 			"type": "post", 
-			"data": {"app": app},
+			"data": {"command": app},
 			"dataType": "html"
 		});
 }
