@@ -22,6 +22,14 @@ body {
 	margin: 0px 5px 5px 0;
 	text-align: center;
 }
+.htmlbox {
+	float:left;
+	margin: 0px 5px 5px 0;
+}
+.whitelink {
+	color: white;
+	text-decoration: none;
+}
 </style>
 
 </head>
@@ -40,12 +48,25 @@ if(file_exists(__DIR__.'/../config.json')) {
 	$config = json_decode(file_get_contents(__DIR__.'/../config.json'), true);
 }
 foreach($config as $nr => $line) { ?>
-	<div style='' onclick="openApp(apps[<?= $nr;?>].command);" class="app">
-		<?php if($line["icon"]!="") { ?>
-			<img src='<?= $line["icon"];?>'><br>
-		<?php } ?>
-		<?= $line["title"];?>
-	</div>
+	
+	<?php if($line["type"]=="clear") { ?>
+		<div style="clear:both;"></div>
+	<?php } ?>
+	
+	<?php if($line["type"]=="app") { ?>
+		<div style='' onclick="openApp(apps[<?= $nr;?>].command);" class="app">
+			<?php if($line["icon"]!="") { ?>
+				<img src='<?= $line["icon"];?>'><br>
+			<?php } ?>
+			<?= $line["title"];?>
+		</div>
+	<?php } ?>
+	
+	<?php if($line["type"]=="html") { ?>
+		<div class='htmlbox' style='width:<?= $line["width"];?>px;height:<?= $line["height"];?>px;overflow:hidden;'>
+		<?php if(file_exists(__DIR__."/../".$line["src"])){  include __DIR__."/../".$line["src"]; } ?>
+		</div>
+	<?php } ?>
 <?php } 
 ?>
 
