@@ -36,11 +36,20 @@ body {
 <body>
 <div id="clock" style="float:right;color: white;font-size: 3em;"></div>
 
-<div>
+<div style="float:left;">
 	<form method="post" onsubmit="openApp($('#command').val());return false;">
 		<input type="text" id="command" value="" placeholder="command" style="width:250px;"> <input type="submit" value="exec">
 	</form>
 </div>
+<div style="float:left;margin-left: 20px;">
+	<form method="get" target="_blank" id="searchform" action="https://www.google.de/search">
+		<input type="text" name="q" value="" placeholder="Suche" style="width:250px;"> 
+		<input type="submit" value="Google" onclick="$('#searchform').attr('action', 'https://www.google.de/search');">
+		<input type="submit" value="Maps" onclick="$('#searchform').attr('action', 'https://www.google.de/maps');">
+	</form>
+</div>
+
+<div style="clear:both;"></div>
 
 <?php
 $config = array();
